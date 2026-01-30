@@ -1,16 +1,5 @@
 @import "tailwindcss";
 
-:root {
-  font-family: 'Poppins', sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color: var(--color-stone-700);
-  background-color: var(--color-stone-100);
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+body {
+  font-family: "Poppins", sans-serif;
 }
-
