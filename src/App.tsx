@@ -147,10 +147,10 @@ function App() {
 
   return (
     <div className="min-h-screen">
-      <header className="bg-indigo-600 text-white shadow-lg">
+      <header className="border-b border-stone-300">
         <div className="container mx-auto px-4 py-6">
           <h1 className="text-3xl font-bold text-center">Red Social React</h1>
-          <p className="text-center text-indigo-200 mt-2">
+          <p className="text-center mt-2">
             Comparte tus pensamientos con el mundo
           </p>
         </div>
