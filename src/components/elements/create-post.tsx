@@ -3,12 +3,13 @@ import { Modal } from "../ui/modal";
 import { PostForm } from "../post-form";
 import { API_ENDPOINTS, CONFIG } from "../../config/environments";
 import type { PostFormData } from "../../types/post-form-types";
+import { toast } from "sonner";
 
 interface CreatePostProps {
-    fetchPosts: () => Promise<void>;
+  fetchPosts: () => Promise<void>;
 }
 
-export const CreatePost = ({fetchPosts}: CreatePostProps) => {
+export const CreatePost = ({ fetchPosts }: CreatePostProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleCreate = async (postData: PostFormData) => {
@@ -21,7 +22,9 @@ export const CreatePost = ({fetchPosts}: CreatePostProps) => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            ...postData,
+            user: "Ulises Jiménez",
+            username: "ulisesjimenez",
+            content: postData.content,
             date: new Date().toISOString(),
           }),
         },
@@ -29,11 +32,12 @@ export const CreatePost = ({fetchPosts}: CreatePostProps) => {
 
       if (response.ok) {
         await fetchPosts();
-        alert("Publicación creada exitosamente");
+        toast.success("Publicación creada con éxito");
+        setIsOpen(false);
       }
     } catch (error) {
       console.error("Error al crear publicación:", error);
-      alert("Error al crear la publicación");
+      toast.error("Error al crear la publicación");
     }
   };
   return (
@@ -45,7 +49,10 @@ export const CreatePost = ({fetchPosts}: CreatePostProps) => {
           className="size-10 rounded-full"
         />
       </div>
-      <button onClick={() => setIsOpen(true)} className="bg-stone-200 rounded-full px-4 py-3 text-xs w-full flex justify-start cursor-pointer">
+      <button
+        onClick={() => setIsOpen(true)}
+        className="bg-stone-200 rounded-full px-4 py-3 text-xs w-full flex justify-start cursor-pointer"
+      >
         <p>¿Qué estás pensando?</p>
       </button>
 

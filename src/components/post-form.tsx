@@ -55,7 +55,7 @@ export const PostForm = ({
         {editingPost ? "Editar Publicación" : "Nueva Publicación"}
       </h2>
 
-      <form onSubmit={handleSubmit(onSubmitForm)} className="space-y-4">
+      <form onSubmit={handleSubmit(onSubmitForm)}>
         <div>
           <textarea
             id="content"
@@ -67,13 +67,13 @@ export const PostForm = ({
             placeholder="¿Qué estás pensando?"
           />
           {errors.content && (
-            <p className="mt-1 text-sm text-red-600">
-              {errors.content.message}
+            <p className="mt-0.5 text-xs text-red-600">
+              * {errors.content.message}
             </p>
           )}
         </div>
 
-        <div className="flex gap-2">
+        <div className="flex gap-2 mt-5">
           <button
             type="submit"
             className="flex-1 bg-stone-800 text-white py-3 px-4 rounded-lg hover:bg-stone-700 transition duration-200 font-semibold uppercase text-xs"
