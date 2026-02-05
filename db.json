@@ -1,17 +1,15 @@
 {
   "posts": [
     {
-      "id": "1",
-      "title": "Mi primera publicación",
       "content": "Este es el contenido de mi primera publicación",
-      "author": "Usuario Demo",
+      "user": "Usuario Demo",
+      "username": "1",
       "date": "2026-01-30T10:00:00.000Z"
     },
     {
-      "title": "xddddd",
       "content": "Esta es una mini preba de funcionamiento",
-      "author": "zzzzz",
-      "id": "2",
+      "user": "zzzzz",
+      "username": "2",
       "date": "2026-01-30T11:30:00.000Z"
     }
   ]
