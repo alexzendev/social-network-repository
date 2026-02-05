@@ -4,7 +4,6 @@ import {
   MessageCircle,
   Pen,
   Repeat,
-  Share,
   Share2,
   Trash,
 } from "lucide-react";
@@ -14,7 +13,8 @@ import { useState } from "react";
 import { Modal } from "../ui/modal";
 import Popover from "../ui/popover";
 import { PostForm } from "./post-form";
-import { API_ENDPOINTS, CONFIG } from "../../config/environments";
+import { usePostActions } from "../../hooks/usePostActions";
+import type { PostFormData } from "../../types/post-form-types";
 
 interface PostCardProps {
   post: Post;
@@ -22,40 +22,30 @@ interface PostCardProps {
 }
 
 export const PostCard = ({ post, fetchPosts }: PostCardProps) => {
-  const [openEditModal, setOpenEditModal] = useState<number | null>(null);
-  const [openDeleteModal, setOpenDeleteModal] = useState<number | null>(null);
+  const [openEditModal, setOpenEditModal] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
-  const [editingPost, setEditingPost] = useState<Post | null>(null);
+  const { updatePost, deletePost } = usePostActions({ fetchPosts });
+
+  const handleEdit = () => {
+    setOpenEditModal(true);
+  };
+
+  const handleDelete = () => {
+    setOpenDeleteModal(true);
+  };
 
   const handleUpdate = async (postData: PostFormData) => {
-    try {
-      const response = await fetch(
-        `${CONFIG.BACKEND_URL}${API_ENDPOINTS.POSTS}/${editingPost.id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            id: editingPost.id,
-            user: "Ulises Jiménez",
-            image:
-              "https://scontent.flov1-1.fna.fbcdn.net/v/t39.30808-6/445387230_345883371854518_401274454041498055_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=zvECD4yAgR8Q7kNvwGOMwGC&_nc_oc=Adl_Xq7i3O7tZqIV0jCGClVrsDMHtdEQ9_KYkg57zkXO5MsE4Kt-3RgONkNTqFMD0vQ9RH-xws2TPuW1CdeKy2QK&_nc_zt=23&_nc_ht=scontent.flov1-1.fna&_nc_gid=ULhv2ByLCr6kI7AuPH6ZFw&oh=00_AfuBfZKnOe64xCu6cmBRFeGpcKoBjuL_M-HaNzp2kqafjA&oe=6989F71F",
-            username: "ulisesjimenez",
-            content: postData.content,
-            date: editingPost.date,
-          }),
-        },
-      );
+    const success = await updatePost(post, postData);
+    if (success) {
+      setOpenEditModal(false);
+    }
+  };
 
-      if (response.ok) {
-        await fetchPosts();
-        setEditingPost(null);
-        alert("Publicación actualizada exitosamente");
-      }
-    } catch (error) {
-      console.error("Error al actualizar publicación:", error);
-      alert("Error al actualizar la publicación");
+  const handleConfirmDelete = async () => {
+    const success = await deletePost(post.id);
+    if (success) {
+      setOpenDeleteModal(false);
     }
   };
 
@@ -81,14 +71,14 @@ export const PostCard = ({ post, fetchPosts }: PostCardProps) => {
               >
                 <div className="p-2">
                   <button
-                    onClick={() => setOpenEditModal(post.id)}
+                    onClick={handleEdit}
                     className="flex items-center text-xs hover:bg-stone-200 px-3 py-2 w-full cursor-pointer"
                   >
                     <Pen className="size-3 mr-2 inline-block" />
                     <p>Editar</p>
                   </button>
                   <button
-                    onClick={() => setOpenEditModal(post.id)}
+                    onClick={handleDelete}
                     className="flex items-center text-xs hover:bg-stone-200 px-3 py-2 w-full cursor-pointer"
                   >
                     <Trash className="size-3 mr-2 inline-block" />
@@ -116,16 +106,47 @@ export const PostCard = ({ post, fetchPosts }: PostCardProps) => {
           </div>
         </div>
       </div>
+      
+      {/* Modal de Edición */}
       <Modal
-        isOpen={openEditModal === post.id}
-        onClose={() => setOpenEditModal(null)}
+        isOpen={openEditModal}
+        onClose={() => setOpenEditModal(false)}
       >
         <div className="max-w-lg w-full rounded-lg">
           <PostForm
-            editingPost={editingPost}
-            onCancelEdit={onCancelEdit}
+            editingPost={post}
+            onCancelEdit={() => setOpenEditModal(false)}
             onSubmit={handleUpdate}
           />
+        </div>
+      </Modal>
+
+      {/* Modal de Confirmación de Eliminación */}
+      <Modal
+        isOpen={openDeleteModal}
+        onClose={() => setOpenDeleteModal(false)}
+      >
+        <div className="max-w-md w-full rounded-lg p-6 bg-white">
+          <h2 className="text-lg font-semibold text-gray-800 mb-4">
+            ¿Eliminar publicación?
+          </h2>
+          <p className="text-sm text-gray-600 mb-6">
+            Esta acción no se puede deshacer. ¿Estás seguro de que deseas eliminar esta publicación?
+          </p>
+          <div className="flex gap-3">
+            <button
+              onClick={() => setOpenDeleteModal(false)}
+              className="flex-1 bg-stone-200 text-stone-800 py-3 px-4 rounded-lg hover:bg-stone-300 transition duration-200 font-semibold uppercase text-xs"
+            >
+              Cancelar
+            </button>
+            <button
+              onClick={handleConfirmDelete}
+              className="flex-1 bg-red-600 text-white py-3 px-4 rounded-lg hover:bg-red-700 transition duration-200 font-semibold uppercase text-xs"
+            >
+              Eliminar
+            </button>
+          </div>
         </div>
       </Modal>
     </>

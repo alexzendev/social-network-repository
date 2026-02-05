@@ -4,19 +4,12 @@ import { PostForm } from "./post-form";
 import { API_ENDPOINTS, CONFIG } from "../../config/environments";
 import type { PostFormData } from "../../types/post-form-types";
 import { toast } from "sonner";
-import type { Post } from "../../types/post-types";
 
 interface CreatePostProps {
-  editingPost: Post | null;
-  onCancelEdit: () => void;
   fetchPosts: () => Promise<void>;
 }
 
-export const CreatePost = ({
-  fetchPosts,
-  editingPost,
-  onCancelEdit,
-}: CreatePostProps) => {
+export const CreatePost = ({ fetchPosts }: CreatePostProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleCreate = async (postData: PostFormData) => {
@@ -72,8 +65,8 @@ export const CreatePost = ({
       >
         <PostForm
           onSubmit={handleCreate}
-          editingPost={editingPost}
-          onCancelEdit={onCancelEdit}
+          editingPost={null}
+          onCancelEdit={() => setIsOpen(false)}
         />
       </Modal>
     </div>

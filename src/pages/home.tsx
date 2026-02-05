@@ -72,7 +72,7 @@ export const Home = () => {
               <p className="text-center mt-4">Cargando publicaciones...</p>
             ) : (
               <div className="relative">
-                <CreatePost fetchPosts={fetchPosts}  />
+                <CreatePost fetchPosts={fetchPosts} />
                 {filteredPosts.length === 0 ? (
                   <p className="text-center mt-4">
                     No se encontraron publicaciones.
@@ -81,7 +81,7 @@ export const Home = () => {
                   <div className="space-y-4">
                     {filteredPosts.map((post) => {
                       return (
-                        <PostCard key={post.id} post={post} setEditingPost={setEditingPost} />
+                        <PostCard key={post.id} post={post} fetchPosts={fetchPosts} />
                       );
                     })}
                   </div>
