@@ -8,6 +8,7 @@ import type { Post } from "../types/post-types";
 import { useEffect, useState } from "react";
 import { useFetchPost } from "../hooks/useFetchPost";
 import { PostCard } from "../components/elements/post-card";
+import { Loader } from "lucide-react";
 
 interface SidebarItem {
   id: number;
@@ -67,9 +68,12 @@ export const Home = () => {
         </aside>
 
         <section className="flex-1 py-6">
-          <div className="max-w-xl mx-auto">
+          <div className="max-w-xl mx-auto min-h-screen">
             {isLoading ? (
-              <p className="text-center mt-4">Cargando publicaciones...</p>
+              <div className="flex flex-col items-center justify-center">
+                <Loader className="animate-spin size-6 text-stone-600" />
+                <p className="text-center mt-4">Cargando publicaciones...</p>
+              </div>
             ) : (
               <div className="relative">
                 <CreatePost fetchPosts={fetchPosts} />
@@ -78,7 +82,7 @@ export const Home = () => {
                     No se encontraron publicaciones.
                   </p>
                 ) : (
-                  <div className="space-y-4">
+                  <div className="space-y-4 mt-10">
                     {filteredPosts.map((post) => {
                       return (
                         <PostCard
