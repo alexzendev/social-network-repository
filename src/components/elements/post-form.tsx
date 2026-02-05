@@ -76,7 +76,7 @@ export const PostForm = ({
         <div className="flex gap-2 mt-5">
           <button
             type="submit"
-            className="flex-1 bg-stone-800 text-white py-3 px-4 rounded-lg hover:bg-stone-700 transition duration-200 font-semibold uppercase text-xs"
+            className="flex-1 bg-stone-800 text-white py-3 px-4 rounded-lg hover:bg-stone-700 transition duration-200 font-semibold uppercase text-xs cursor-pointer"
           >
             {editingPost ? "Actualizar" : "Publicar"}
           </button>
@@ -85,7 +85,7 @@ export const PostForm = ({
             <button
               type="button"
               onClick={handleCancel}
-              className="flex-1 bg-stone-800 text-white py-3 px-4 rounded-lg hover:bg-stone-700 transition duration-200 font-semibold uppercase text-xs"
+              className="flex-1 bg-stone-200 text-stone-800 py-3 px-4 rounded-lg hover:bg-stone-300 transition duration-200 font-semibold uppercase text-xs cursor-pointer"
             >
               Cancelar
             </button>

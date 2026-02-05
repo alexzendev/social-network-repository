@@ -29,7 +29,7 @@ export const Home = () => {
 
   useEffect(() => {
     fetchPosts();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleSearch = (searchTerm: string) => {
     if (!searchTerm.trim()) {
@@ -81,7 +81,11 @@ export const Home = () => {
                   <div className="space-y-4">
                     {filteredPosts.map((post) => {
                       return (
-                        <PostCard key={post.id} post={post} fetchPosts={fetchPosts} />
+                        <PostCard
+                          key={post.id}
+                          post={post}
+                          fetchPosts={fetchPosts}
+                        />
                       );
                     })}
                   </div>

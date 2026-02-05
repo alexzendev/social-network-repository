@@ -106,13 +106,9 @@ export const PostCard = ({ post, fetchPosts }: PostCardProps) => {
           </div>
         </div>
       </div>
-      
-      {/* Modal de Edición */}
-      <Modal
-        isOpen={openEditModal}
-        onClose={() => setOpenEditModal(false)}
-      >
-        <div className="max-w-lg w-full rounded-lg">
+
+      <Modal isOpen={openEditModal} onClose={() => setOpenEditModal(false)}>
+        <div className="w-lg">
           <PostForm
             editingPost={post}
             onCancelEdit={() => setOpenEditModal(false)}
@@ -121,17 +117,13 @@ export const PostCard = ({ post, fetchPosts }: PostCardProps) => {
         </div>
       </Modal>
 
-      {/* Modal de Confirmación de Eliminación */}
-      <Modal
-        isOpen={openDeleteModal}
-        onClose={() => setOpenDeleteModal(false)}
-      >
-        <div className="max-w-md w-full rounded-lg p-6 bg-white">
-          <h2 className="text-lg font-semibold text-gray-800 mb-4">
-            ¿Eliminar publicación?
+      <Modal isOpen={openDeleteModal} onClose={() => setOpenDeleteModal(false)}>
+        <div className="w-lg">
+          <h2 className="text-base uppercase font-semibold text-gray-800 mb-4">
+            Eliminar publicación
           </h2>
-          <p className="text-sm text-gray-600 mb-6">
-            Esta acción no se puede deshacer. ¿Estás seguro de que deseas eliminar esta publicación?
+          <p className="text-xs text-gray-600 mb-6">
+            ¿Estás seguro de que deseas eliminar esta publicación?
           </p>
           <div className="flex gap-3">
             <button

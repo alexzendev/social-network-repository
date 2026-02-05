@@ -55,7 +55,7 @@ export const Modal = ({ isOpen, onClose, children, className }: ModalProps) => {
         <div
           ref={refs.setFloating} // eslint-disable-line react-hooks/refs
           {...getFloatingProps()}
-          className={`outline-none bg-stone-100 dark:bg-stone-900 p-4 ${className}`}
+          className={`outline-none bg-stone-100 dark:bg-stone-900 p-4 rounded-lg ${className}`}
         >
           <div className="flex items-center justify-end mb-5">
             <button

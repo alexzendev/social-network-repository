@@ -23,4 +23,4 @@ export const DATA_SIDEBAR = [
     icon: "settings",
     active: false,
   },
-];
+] as const;
