@@ -1,8 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { postSchema } from "../schemas/post-schema";
-import type { PostFormData } from "../types/post-form-types";
+import { postSchema } from "../../schemas/post-schema";
+import type { PostFormData } from "../../types/post-form-types";
 
 interface Post {
   id: number;

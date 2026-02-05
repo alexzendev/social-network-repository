@@ -7,7 +7,7 @@ import { getIcon, type IconName } from "../utils/icon-map";
 import type { Post } from "../types/post-types";
 import { useEffect, useState } from "react";
 import { useFetchPost } from "../hooks/useFetchPost";
-import { PostCard } from "../components/post-card";
+import { PostCard } from "../components/elements/post-card";
 
 interface SidebarItem {
   id: number;
@@ -72,7 +72,7 @@ export const Home = () => {
               <p className="text-center mt-4">Cargando publicaciones...</p>
             ) : (
               <div className="relative">
-                <CreatePost fetchPosts={fetchPosts} />
+                <CreatePost fetchPosts={fetchPosts}  />
                 {filteredPosts.length === 0 ? (
                   <p className="text-center mt-4">
                     No se encontraron publicaciones.
@@ -81,7 +81,7 @@ export const Home = () => {
                   <div className="space-y-4">
                     {filteredPosts.map((post) => {
                       return (
-                        <PostCard key={post.id} post={post} />
+                        <PostCard key={post.id} post={post} setEditingPost={setEditingPost} />
                       );
                     })}
                   </div>

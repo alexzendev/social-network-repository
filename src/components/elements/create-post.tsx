@@ -1,15 +1,22 @@
 import { useState } from "react";
 import { Modal } from "../ui/modal";
-import { PostForm } from "../post-form";
+import { PostForm } from "./post-form";
 import { API_ENDPOINTS, CONFIG } from "../../config/environments";
 import type { PostFormData } from "../../types/post-form-types";
 import { toast } from "sonner";
+import type { Post } from "../../types/post-types";
 
 interface CreatePostProps {
+  editingPost: Post | null;
+  onCancelEdit: () => void;
   fetchPosts: () => Promise<void>;
 }
 
-export const CreatePost = ({ fetchPosts }: CreatePostProps) => {
+export const CreatePost = ({
+  fetchPosts,
+  editingPost,
+  onCancelEdit,
+}: CreatePostProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleCreate = async (postData: PostFormData) => {
@@ -23,7 +30,8 @@ export const CreatePost = ({ fetchPosts }: CreatePostProps) => {
           },
           body: JSON.stringify({
             user: "Ulises Jiménez",
-            image: "https://scontent.flov1-1.fna.fbcdn.net/v/t39.30808-6/445387230_345883371854518_401274454041498055_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=zvECD4yAgR8Q7kNvwGOMwGC&_nc_oc=Adl_Xq7i3O7tZqIV0jCGClVrsDMHtdEQ9_KYkg57zkXO5MsE4Kt-3RgONkNTqFMD0vQ9RH-xws2TPuW1CdeKy2QK&_nc_zt=23&_nc_ht=scontent.flov1-1.fna&_nc_gid=ULhv2ByLCr6kI7AuPH6ZFw&oh=00_AfuBfZKnOe64xCu6cmBRFeGpcKoBjuL_M-HaNzp2kqafjA&oe=6989F71F",
+            image:
+              "https://scontent.flov1-1.fna.fbcdn.net/v/t39.30808-6/445387230_345883371854518_401274454041498055_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=zvECD4yAgR8Q7kNvwGOMwGC&_nc_oc=Adl_Xq7i3O7tZqIV0jCGClVrsDMHtdEQ9_KYkg57zkXO5MsE4Kt-3RgONkNTqFMD0vQ9RH-xws2TPuW1CdeKy2QK&_nc_zt=23&_nc_ht=scontent.flov1-1.fna&_nc_gid=ULhv2ByLCr6kI7AuPH6ZFw&oh=00_AfuBfZKnOe64xCu6cmBRFeGpcKoBjuL_M-HaNzp2kqafjA&oe=6989F71F",
             username: "ulisesjimenez",
             content: postData.content,
             date: new Date().toISOString(),
@@ -62,7 +70,11 @@ export const CreatePost = ({ fetchPosts }: CreatePostProps) => {
         onClose={() => setIsOpen(false)}
         className="max-w-lg w-full rounded-lg"
       >
-        <PostForm onSubmit={handleCreate} />
+        <PostForm
+          onSubmit={handleCreate}
+          editingPost={editingPost}
+          onCancelEdit={onCancelEdit}
+        />
       </Modal>
     </div>
   );
