@@ -1,7 +1,11 @@
 import { Bell } from "lucide-react";
 import { SearchBar } from "./search-bar";
 
-export const Header = () => {
+interface HeaderProps {
+  handleSearch: (searchTerm: string) => void;
+}
+
+export const Header = ({ handleSearch }: HeaderProps) => {
   return (
     <header className="border-b border-stone-200">
       <div className="container mx-auto px-4 py-3">
@@ -11,7 +15,7 @@ export const Header = () => {
             <p className="text-xs">Practica Ulises</p>
           </div>
 
-          <SearchBar />
+          <SearchBar onSearch={handleSearch} />
 
           <div className="flex items-center gap-3">
             <Bell className="size-4" />

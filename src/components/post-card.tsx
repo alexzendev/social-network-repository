@@ -1,48 +1,27 @@
+import type { Post } from "../types/post-types";
 import { formatDate } from "../utils/format-date";
-
-interface Post {
-  id: number;
-  title: string;
-  content: string;
-  author: string;
-  date: string;
-}
 
 interface PostCardProps {
   post: Post;
-  onEdit: (post: Post) => void;
-  onDelete: (id: number) => void;
 }
 
-export const PostCard = ({ post, onEdit, onDelete }: PostCardProps) => {
+export const PostCard = ({ post }: PostCardProps) => {
   return (
-    <article className="border border-stone-300 p-4 rounded-2xl">
-      <div className="flex items-start justify-between mb-4">
-        <div className="flex-1">
-          <h3 className="text-xl font-bold mb-1">{post.title}</h3>
-          <div className="flex items-center text-sm text-gray-500">
-            <span className="font-medium">{post.author}</span>
-            <span className="mx-2">•</span>
-            <time>{formatDate(post.date)}</time>
-          </div>
+    <div key={post.id} className="border border-stone-300 rounded-lg p-4">
+      <div className="flex items-center gap-2">
+        <img
+          src={post.image}
+          alt={`Imagen de ${post.user}`}
+          className="size-10 rounded-full"
+        />
+        <div>
+          <p className="font-semibold text-xs">{post.user}</p>
+          <p className="text-[11px] text-stone-500">
+            @{post.username} · {formatDate(post.date)}
+          </p>
         </div>
       </div>
-      <p className="text-gray-700 mb-4 leading-relaxed">{post.content}</p>
-      <div className="flex gap-2 pt-4 border-t border-gray-200">
-        <button
-          onClick={() => onEdit(post)}
-          className="flex items-center gap-1 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-200 text-sm font-medium cursor-pointer"
-        >
-          Editar
-        </button>
-
-        <button
-          onClick={() => onDelete(post.id)}
-          className="flex items-center gap-1 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-200 text-sm font-medium cursor-pointer"
-        >
-          Eliminar
-        </button>
-      </div>
-    </article>
+      <p>{post.content}</p>
+    </div>
   );
 };
