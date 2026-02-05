@@ -57,7 +57,7 @@ export const Modal = ({ isOpen, onClose, children, className }: ModalProps) => {
           {...getFloatingProps()}
           className={`outline-none bg-stone-100 dark:bg-stone-900 p-4 rounded-lg ${className}`}
         >
-          <div className="flex items-center justify-end mb-5">
+          <div className="flex items-center justify-end">
             <button
               onClick={() => onClose(false)}
               className="flex items-center justify-center hover:text-red-500 transition-colors duration-200 cursor-pointer outline-none"
@@ -67,9 +67,7 @@ export const Modal = ({ isOpen, onClose, children, className }: ModalProps) => {
             </button>
           </div>
 
-          <div>
-            {children}
-          </div>
+          <div className="mt-4">{children}</div>
         </div>
       </FloatingFocusManager>
     </FloatingOverlay>

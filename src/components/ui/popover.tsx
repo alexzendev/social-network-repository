@@ -22,6 +22,7 @@ interface PopoverProps {
   readonly showArrow?: boolean;
   readonly className?: string;
   readonly onOpenChange?: (open: boolean) => void;
+  readonly open?: boolean;
   readonly placement?:
     | "top"
     | "bottom"
@@ -44,15 +45,21 @@ export default function Popover({
   showArrow = false,
   className = "",
   onOpenChange,
+  open: controlledOpen,
   placement,
 }: PopoverProps) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [internalOpen, setInternalOpen] = useState(false);
+
+  const isOpen = controlledOpen ?? internalOpen;
+
   const arrowRef = useRef(null);
 
   const { refs, floatingStyles, context } = useFloating({
     open: isOpen,
     onOpenChange: (open) => {
-      setIsOpen(open);
+      if (controlledOpen === undefined) {
+        setInternalOpen(open);
+      }
       onOpenChange?.(open);
     },
     placement: placement,
@@ -62,7 +69,6 @@ export default function Popover({
         fallbackAxisSideDirection: "start",
       }),
       shift({ padding: 5 }),
-      // eslint-disable-next-line react-hooks/rules-of-hooks
       arrow({
         element: arrowRef,
       }),

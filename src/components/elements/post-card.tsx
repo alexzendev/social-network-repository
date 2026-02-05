@@ -24,14 +24,17 @@ interface PostCardProps {
 export const PostCard = ({ post, fetchPosts }: PostCardProps) => {
   const [openEditModal, setOpenEditModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [popoverOpen, setPopoverOpen] = useState(false); // NUEVO
 
   const { updatePost, deletePost } = usePostActions({ fetchPosts });
 
   const handleEdit = () => {
+    setPopoverOpen(false);
     setOpenEditModal(true);
   };
 
   const handleDelete = () => {
+    setPopoverOpen(false);
     setOpenDeleteModal(true);
   };
 
@@ -62,6 +65,8 @@ export const PostCard = ({ post, fetchPosts }: PostCardProps) => {
             <div className="flex items-center justify-between w-full">
               <p className="font-semibold text-xs">{post.user}</p>
               <Popover
+                open={popoverOpen}
+                onOpenChange={setPopoverOpen}
                 trigger={
                   <button className="cursor-pointer">
                     <Ellipsis className="size-4 text-stone-600" />
@@ -107,38 +112,38 @@ export const PostCard = ({ post, fetchPosts }: PostCardProps) => {
         </div>
       </div>
 
-      <Modal isOpen={openEditModal} onClose={() => setOpenEditModal(false)}>
-        <div className="w-lg">
-          <PostForm
+      <Modal isOpen={openEditModal} onClose={() => setOpenEditModal(false)} className="w-lg">
+        <PostForm
             editingPost={post}
             onCancelEdit={() => setOpenEditModal(false)}
             onSubmit={handleUpdate}
           />
-        </div>
       </Modal>
 
-      <Modal isOpen={openDeleteModal} onClose={() => setOpenDeleteModal(false)}>
-        <div className="w-lg">
-          <h2 className="text-base uppercase font-semibold text-gray-800 mb-4">
-            Eliminar publicación
-          </h2>
-          <p className="text-xs text-gray-600 mb-6">
-            ¿Estás seguro de que deseas eliminar esta publicación?
-          </p>
-          <div className="flex gap-3">
-            <button
-              onClick={() => setOpenDeleteModal(false)}
-              className="flex-1 bg-stone-200 text-stone-800 py-3 px-4 rounded-lg hover:bg-stone-300 transition duration-200 font-semibold uppercase text-xs"
-            >
-              Cancelar
-            </button>
-            <button
-              onClick={handleConfirmDelete}
-              className="flex-1 bg-red-600 text-white py-3 px-4 rounded-lg hover:bg-red-700 transition duration-200 font-semibold uppercase text-xs"
-            >
-              Eliminar
-            </button>
-          </div>
+      <Modal
+        isOpen={openDeleteModal}
+        onClose={() => setOpenDeleteModal(false)}
+        className=""
+      >
+        <h2 className="text-base uppercase font-semibold text-gray-800 mb-4">
+          Eliminar publicación
+        </h2>
+        <p className="text-xs text-gray-600 mb-6">
+          ¿Estás seguro de que deseas eliminar esta publicación?
+        </p>
+        <div className="flex gap-3">
+          <button
+            onClick={() => setOpenDeleteModal(false)}
+            className="flex-1 bg-stone-200 text-stone-800 py-3 px-4 rounded-lg hover:bg-stone-300 transition duration-200 font-semibold uppercase text-xs"
+          >
+            Cancelar
+          </button>
+          <button
+            onClick={handleConfirmDelete}
+            className="flex-1 bg-red-600 text-white py-3 px-4 rounded-lg hover:bg-red-700 transition duration-200 font-semibold uppercase text-xs"
+          >
+            Eliminar
+          </button>
         </div>
       </Modal>
     </>
